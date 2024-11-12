@@ -17,42 +17,63 @@ class EditScrapbookViewController: UIViewController {
         view.backgroundColor = .white
         
         let label = UILabel()
-        label.text = "Edit Scrapbook"
+        label.text = "EDIT SCRAPBOOK"
         label.textAlignment = .center
-        label.font = UIFont.systemFont(ofSize: 24)
+        label.font = UIFont(name: "Helvetica-Bold", size: 34)
         label.textColor = .black
         label.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(label)
         
         NSLayoutConstraint.activate([
-            label.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            label.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20)
+            label.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 16),
+            label.centerXAnchor.constraint(equalTo: view.centerXAnchor)
+        ])
+        
+        let topToolbar = setupTopToolbar()
+        view.addSubview(topToolbar)
+        
+        NSLayoutConstraint.activate([
+            topToolbar.topAnchor.constraint(equalTo: label.bottomAnchor, constant: 10),
+            topToolbar.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+            topToolbar.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20)
         ])
         
         //set Scarpbook canvas
-        setupCanvas()
+        setupCanvas(below: topToolbar)
         
         //set bottom tool bar
         setupBottomToolbar()
     }
     
-    func setupCanvas() {
-        let canvasView = UIImageView()
-        canvasView.backgroundColor = UIColor(white: 0.95, alpha: 1.0)
-        canvasView.layer.borderWidth = 1
-        canvasView.layer.borderColor = UIColor.lightGray.cgColor
-        canvasView.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(canvasView)
-        
-        NSLayoutConstraint.activate([
-            canvasView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-            canvasView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
-            canvasView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 80),
-            canvasView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -80)
-        ])
-        
-        // Implement Edit functions here
-    }
+    func setupTopToolbar() -> UIStackView {
+            let topToolbar = UIStackView()
+            topToolbar.axis = .horizontal
+            topToolbar.alignment = .fill
+            topToolbar.distribution = .equalSpacing
+            topToolbar.translatesAutoresizingMaskIntoConstraints = false
+            
+            // "Text" button
+            let textButton = UIButton(type: .system)
+            textButton.setTitle("Text", for: .normal)
+            textButton.addTarget(self, action: #selector(addText), for: .touchUpInside)
+            
+            // Create "Photo" button
+            let photoButton = UIButton(type: .system)
+            photoButton.setTitle("Photo", for: .normal)
+            photoButton.addTarget(self, action: #selector(addPhoto), for: .touchUpInside)
+            
+            // Create "Sticker" button
+            let stickerButton = UIButton(type: .system)
+            stickerButton.setTitle("Sticker", for: .normal)
+            stickerButton.addTarget(self, action: #selector(addSticker), for: .touchUpInside)
+            
+            // Add buttons to the topToolbar
+            topToolbar.addArrangedSubview(textButton)
+            topToolbar.addArrangedSubview(photoButton)
+            topToolbar.addArrangedSubview(stickerButton)
+            
+            return topToolbar
+        }
     
     func setupBottomToolbar() {
             bottomToolbar = UIToolbar()
@@ -89,5 +110,17 @@ class EditScrapbookViewController: UIViewController {
         
         @objc func exportButtonTapped() {
             print("Export button tapped")
+        }
+    
+        @objc func addText() {
+                print("Add Text tapped")
+            }
+            
+        @objc func addPhoto() {
+            print("Add Photo tapped")
+        }
+        
+        @objc func addSticker() {
+            print("Add Sticker tapped")
         }
 }
